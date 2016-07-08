@@ -53,6 +53,9 @@ public class SocketClient {
                     if (message != CommandStatus.HELP) {
                         message = (CommandStatus) in.readObject();
                         System.out.println("server " + MyDateTime.getCurrentDateTime() + "> " + message.toString());
+
+                        if (message == CommandStatus.STOP_HOMESEQ)
+                            break;
                     }
 
                     message = null;
@@ -70,8 +73,11 @@ public class SocketClient {
                     System.err.println("data received in unknown format");
                 }
             } while (clientRunningCondition);
-            message = (CommandStatus) in.readObject();
-            System.out.println("server " + MyDateTime.getCurrentDateTime() + "> " + message.toString());
+
+            if (!clientRunningCondition) {
+                message = (CommandStatus) in.readObject();
+                System.out.println("server " + MyDateTime.getCurrentDateTime() + "> " + message.toString());
+            }
         } catch (UnknownHostException unknownHost) {
             System.err.println("You are trying to connect to an unknown host!");
         } catch (IOException e) {
@@ -107,17 +113,17 @@ public class SocketClient {
     }
 
     public static void main(String[] args) {
-        if (args.length==0)
+        if (args.length == 0)
             new SocketClient().startClient();
-        else if (args.length==1)
+        else if (args.length == 1)
             new SocketClient(Integer.parseInt(args[0])).startClient();
-        else if (args.length==2)
+        else if (args.length == 2)
             new SocketClient(args[0], Integer.parseInt(args[1])).startClient();
         else {
-            System.out.println("SocketClient - connect to localhost:defaultport" );
-            System.out.println("SocketClient port_number - connect to localhost:port_number" );
-            System.out.println("SocketClient hostname port_number - connect to hostname:port_number" );
-            System.out.println("SocketClient ip port_number - connect to ip:port_number" );
+            System.out.println("SocketClient - connect to localhost:defaultport");
+            System.out.println("SocketClient port_number - connect to localhost:port_number");
+            System.out.println("SocketClient hostname port_number - connect to hostname:port_number");
+            System.out.println("SocketClient ip port_number - connect to ip:port_number");
         }
     }
 }

@@ -27,7 +27,7 @@ public class SocketServer implements Runnable {
         this.serverRunningCondition = socketServerRunningCondition;
         this.connectionRunningCondition = true;
         this.connection = null;
-        this.portNumber = 8881;
+        this.portNumber = 8888;
     }
 
 

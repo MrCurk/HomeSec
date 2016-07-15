@@ -17,7 +17,6 @@ public class SocketClient {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private CommandStatus messageCommandStatus;
     private Object message;
     private Scanner keyboard;
 
@@ -54,7 +53,9 @@ public class SocketClient {
             do {
                 try {
                     if (message != CommandStatus.HELP) {
-                        message = (CommandStatus) in.readObject();
+
+                        message =  in.readObject();
+
                         System.out.println("server " + MyDateTime.getCurrentDateTime() + "> " + message.toString());
 
                         if (message == CommandStatus.STOP_HOMESEQ)
@@ -78,7 +79,7 @@ public class SocketClient {
             } while (clientRunningCondition);
 
             if (!clientRunningCondition) {
-                message = (CommandStatus) in.readObject();
+                message = in.readObject();
                 System.out.println("server " + MyDateTime.getCurrentDateTime() + "> " + message.toString());
             }
         } catch (UnknownHostException unknownHost) {

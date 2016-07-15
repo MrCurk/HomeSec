@@ -78,13 +78,12 @@ public class SocketServer implements Runnable {
                             connectionRunningCondition = false;
                             sendMessage(CommandStatus.EXIT);
                             break;
-                        //TODO
                         case IO_STATUS:
-                            sendMessage(CommandStatus.IO_STATUS);
+                            sendMessage(piFaceModule.getAllIoStatus());
                             break;
                         case OUTPUT_OFF:
                             if(piFaceModule.setCommand(message))
-                                sendMessage(CommandStatus.OUTPUT_OFF);
+                                sendMessage(piFaceModule.getAllIoStatus());
                             else
                                 sendMessage(CommandStatus.ERROR);
                             break;

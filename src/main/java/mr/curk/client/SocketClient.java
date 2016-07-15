@@ -1,11 +1,13 @@
 package mr.curk.client;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import mr.curk.util.CommandStatus;
 import mr.curk.util.MyDateTime;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class SocketClient {
@@ -15,7 +17,8 @@ public class SocketClient {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private CommandStatus message;
+    private CommandStatus messageCommandStatus;
+    private Object message;
     private Scanner keyboard;
 
 
@@ -102,7 +105,7 @@ public class SocketClient {
 
     }
 
-    private void sendMessage(CommandStatus msg) {
+    private void sendMessage(Object msg) {
         try {
             out.writeObject(msg);
             out.flush();

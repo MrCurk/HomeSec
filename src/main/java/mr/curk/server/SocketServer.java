@@ -1,7 +1,9 @@
 package mr.curk.server;
 
+import mr.curk.piFace.PiFaceModule;
 import mr.curk.util.CommandStatus;
 import mr.curk.util.MyDateTime;
+import mr.curk.util.State;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,16 +20,22 @@ public class SocketServer implements Runnable {
     private ObjectInputStream in;
     private CommandStatus message;
     private final int portNumber;
+    private PiFaceModule piFaceModule;
 
     public SocketServer() {
-        this(true);
+        this(null, 8888);
     }
 
-    public SocketServer(Boolean socketServerRunningCondition) {
-        this.serverRunningCondition = socketServerRunningCondition;
+    public SocketServer(PiFaceModule piFaceModule) {
+        this(piFaceModule, 8888);
+    }
+
+    public SocketServer(PiFaceModule piFaceModule, int port) {
+        this.serverRunningCondition = true;
         this.connectionRunningCondition = true;
         this.connection = null;
-        this.portNumber = 8888;
+        this.portNumber = port;
+        this.piFaceModule = piFaceModule;
     }
 
 
@@ -59,66 +67,170 @@ public class SocketServer implements Runnable {
 
                     switch (message) {
                         case STOP_HOMESEQ:
-                            serverRunningCondition = false;
-                            sendMessage(CommandStatus.STOP_HOMESEQ);
+                            if(piFaceModule.setCommand(message)) {
+                                serverRunningCondition = false;
+                                sendMessage(CommandStatus.STOP_HOMESEQ);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
+
                         case EXIT:
                             connectionRunningCondition = false;
                             sendMessage(CommandStatus.EXIT);
                             break;
+                        //TODO
                         case IO_STATUS:
                             sendMessage(CommandStatus.IO_STATUS);
                             break;
                         case OUTPUT_OFF:
-                            sendMessage(CommandStatus.OUTPUT_OFF);
+                            if(piFaceModule.setCommand(message))
+                                sendMessage(CommandStatus.OUTPUT_OFF);
+                            else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_0_ON:
-                            sendMessage(CommandStatus.OUTPUT_0_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(0) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_0_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_0_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_0_OFF:
-                            sendMessage(CommandStatus.OUTPUT_0_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(0) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_0_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_0_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_1_ON:
-                            sendMessage(CommandStatus.OUTPUT_1_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(1) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_1_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_1_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_1_OFF:
-                            sendMessage(CommandStatus.OUTPUT_1_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(1) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_1_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_1_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_2_ON:
-                            sendMessage(CommandStatus.OUTPUT_2_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(2) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_2_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_2_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_2_OFF:
-                            sendMessage(CommandStatus.OUTPUT_2_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(2) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_2_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_2_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_3_ON:
-                            sendMessage(CommandStatus.OUTPUT_3_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(3) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_3_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_3_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_3_OFF:
-                            sendMessage(CommandStatus.OUTPUT_3_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(3) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_3_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_3_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_4_ON:
-                            sendMessage(CommandStatus.OUTPUT_4_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(4) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_4_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_4_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_4_OFF:
-                            sendMessage(CommandStatus.OUTPUT_4_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(4) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_4_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_4_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_5_ON:
-                            sendMessage(CommandStatus.OUTPUT_5_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(5) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_5_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_5_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_5_OFF:
-                            sendMessage(CommandStatus.OUTPUT_5_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(5) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_5_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_5_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_6_ON:
-                            sendMessage(CommandStatus.OUTPUT_6_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(6) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_6_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_6_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_6_OFF:
-                            sendMessage(CommandStatus.OUTPUT_6_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(6) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_6_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_6_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_7_ON:
-                            sendMessage(CommandStatus.OUTPUT_7_ON);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(7) == State.ON)
+                                    sendMessage(CommandStatus.OUTPUT_7_ON);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_7_OFF);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         case OUTPUT_7_OFF:
-                            sendMessage(CommandStatus.OUTPUT_7_OFF);
+                            if(piFaceModule.setCommand(message)) {
+                                if(piFaceModule.getStatusInput(7) == State.OFF)
+                                    sendMessage(CommandStatus.OUTPUT_7_OFF);
+                                else
+                                    sendMessage(CommandStatus.OUTPUT_7_ON);
+                            }else
+                                sendMessage(CommandStatus.ERROR);
                             break;
                         default:
                             sendMessage(CommandStatus.HELP);
@@ -148,7 +260,7 @@ public class SocketServer implements Runnable {
         }
     }
 
-    private void sendMessage(CommandStatus msg) {
+    private void sendMessage(Object msg) {
         try {
             out.writeObject(msg);
             out.flush();

@@ -57,7 +57,7 @@ public class SocketServer implements Runnable {
 
             in = new ObjectInputStream(connection.getInputStream());
 
-            sendMessage(CommandStatus.CONNECTED);
+            sendMessageToClient(CommandStatus.CONNECTED);
 
             // two way communication via input and output stream
             do {
@@ -69,170 +69,180 @@ public class SocketServer implements Runnable {
                         case STOP_HOMESEQ:
                             if(piFaceModule.setCommand(message)) {
                                 serverRunningCondition = false;
-                                sendMessage(CommandStatus.STOP_HOMESEQ);
+                                sendMessageToClient(message);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
 
                         case EXIT:
                             connectionRunningCondition = false;
-                            sendMessage(CommandStatus.EXIT);
+                            sendMessageToClient(CommandStatus.EXIT);
                             break;
+
                         case IO_STATUS:
-                            sendMessage(piFaceModule.getAllIoStatus());
+                            sendMessageToClient(piFaceModule.getAllIoStatus());
                             break;
+
                         case OUTPUT_OFF:
                             if(piFaceModule.setCommand(message))
-                                sendMessage(piFaceModule.getAllIoStatus());
+                                sendMessageToClient(piFaceModule.getAllIoStatus());
                             else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_0_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(0) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_0_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_0_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_0_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_0_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_0_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(0) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_0_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_0_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_0_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_0_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_1_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(1) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_1_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_1_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_1_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_1_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_1_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(1) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_1_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_1_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_1_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_1_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_2_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(2) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_2_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_2_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_2_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_2_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_2_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(2) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_2_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_2_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_2_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_2_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_3_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(3) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_3_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_3_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_3_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_3_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_3_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(3) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_3_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_3_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_3_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_3_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_4_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(4) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_4_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_4_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_4_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_4_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_4_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(4) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_4_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_4_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_4_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_4_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_5_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(5) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_5_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_5_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_5_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_5_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_5_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(5) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_5_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_5_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_5_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_5_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_6_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(6) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_6_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_6_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_6_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_6_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_6_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(6) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_6_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_6_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_6_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_6_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
+
                         case OUTPUT_7_ON:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(7) == State.ON)
-                                    sendMessage(CommandStatus.OUTPUT_7_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_7_ON);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_7_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_7_OFF);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         case OUTPUT_7_OFF:
                             if(piFaceModule.setCommand(message)) {
                                 if(piFaceModule.getStatusInput(7) == State.OFF)
-                                    sendMessage(CommandStatus.OUTPUT_7_OFF);
+                                    sendMessageToClient(CommandStatus.OUTPUT_7_OFF);
                                 else
-                                    sendMessage(CommandStatus.OUTPUT_7_ON);
+                                    sendMessageToClient(CommandStatus.OUTPUT_7_ON);
                             }else
-                                sendMessage(CommandStatus.ERROR);
+                                sendMessageToClient(CommandStatus.ERROR);
                             break;
                         default:
-                            sendMessage(CommandStatus.HELP);
+                            sendMessageToClient(CommandStatus.HELP);
                     }
                     message = null;
 
@@ -259,7 +269,7 @@ public class SocketServer implements Runnable {
         }
     }
 
-    private void sendMessage(Object msg) {
+    private void sendMessageToClient(Object msg) {
         try {
             out.writeObject(msg);
             out.flush();

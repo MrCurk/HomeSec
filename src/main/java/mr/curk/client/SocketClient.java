@@ -66,7 +66,7 @@ public class SocketClient {
                     message = CommandStatus.setCommandStatus(keyboard.nextLine());
 
                     if (message != CommandStatus.HELP)
-                        sendMessage(message);
+                        sendMessageToServer(message);
                     else
                         CommandStatus.printHelp();
 
@@ -106,7 +106,7 @@ public class SocketClient {
 
     }
 
-    private void sendMessage(Object msg) {
+    private void sendMessageToServer(Object msg) {
         try {
             out.writeObject(msg);
             out.flush();
